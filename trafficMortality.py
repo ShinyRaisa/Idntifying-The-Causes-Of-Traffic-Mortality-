@@ -2,13 +2,11 @@
 # coding: utf-8
 
 # ## 1. The raw data files and their format
-# <p><img src="https://s3.amazonaws.com/assets.datacamp.com/production/project_462/img/car-accident.jpg" alt=""></p>
 # <p>While the rate of fatal road accidents has been decreasing steadily since the 80s, the past ten years have seen a stagnation in this reduction. Coupled with the increase in number of miles driven in the nation, the total number of traffic related-fatalities has now reached a ten year high and is rapidly increasing.</p>
 # <p>Per request of the US Department of Transportation, we are currently investigating how to derive a strategy to reduce the incidence of road accidents across the nation. By looking at the demographics of traﬃc accident victims for each US state, we find that there is a lot of variation between states. Now we want to understand if there are patterns in this variation in order to derive suggestions for a policy action plan. In particular, instead of implementing a costly nation-wide plan we want to focus on groups of  states with similar profiles. How can we find such groups in a statistically sound way and communicate the result effectively?</p>
 # <p>To accomplish these tasks, we will make use of data wrangling, plotting, dimensionality reduction, and unsupervised clustering.</p>
 # <p>The data given to us was originally collected by the National Highway Traffic Safety Administration and the National Association of Insurance Commissioners. This particular dataset was compiled and released as a <a href="https://github.com/fivethirtyeight/data/tree/master/bad-drivers">CSV-file</a> by FiveThirtyEight under the <a href="https://github.com/ﬁvethirtyeight/data">CC-BY4.0 license</a>.</p>
 
-# In[21]:
 
 
 ## Check the name of the current folder
@@ -31,14 +29,12 @@
 # ## 2. Read in and get an overview of the data
 # <p>Next, we will orient ourselves to get to know the data with which we are dealing.</p>
 
-# In[23]:
 
 
 # Import the `pandas` module as "pd"
-# ... YOUR CODE FOR TASK 2 ...
 import pandas as pd
 # Read in `road-accidents.csv`
-car_acc = pd.read_csv("D:\\D O W N L O A D S\\1.Thesis\\project\\Reducing Traffic Mortality in the USA\\datasets\\road-accidents.csv",comment="#",sep="|")
+car_acc = pd.read_csv("\\datasets\\road-accidents.csv",comment="#",sep="|")
 
 # Save the number of rows columns as a tuple
 rows_and_cols = car_acc.shape
@@ -72,7 +68,6 @@ sum_stat_car = car_acc.describe()
 print(sum_stat_car)
 
 # Create a pairwise scatter plot to explore the data
-# ... YOUR CODE FOR TASK 3 ...
 plt.figure()
 sns.pairplot(car_acc)
 
@@ -109,7 +104,6 @@ target = car_acc['drvr_fatl_col_bmiles']
 reg = linear_model.LinearRegression()
 
 # Fit a multivariate linear regression model
-# ... YOUR CODE FOR TASK 5 ...
 reg.fit(features,target)
 # Retrieve the regression coefficients
 fit_coef = reg.coef_
@@ -130,12 +124,10 @@ scaler = StandardScaler()
 features_scaled = scaler.fit_transform(features)
 
 # Import the PCA class function from sklearn
-# ... YOUR CODE FOR TASK 6 ...
 from sklearn.decomposition import PCA
 pca = PCA()
 
 # Fit the standardized data to the pca
-# ... YOUR CODE FOR TASK 6 ...
 pca.fit(features_scaled)
 
 # Plot the proportion of variance explained on the y-axis of the bar plot
@@ -168,7 +160,6 @@ p_comp1 = p_comps[:,0]
 p_comp2 = p_comps[:,1]
 
 # Plot the first two principal components in a scatter plot
-# ... YOUR CODE FOR TASK 7 ...
 plt.figure()
 plt.scatter(p_comp1,p_comp2)
 plt.xlabel('Principal component #1')
@@ -190,7 +181,6 @@ plt.ylabel('Tsne #2')
 
 
 # Import KMeans from sklearn
-# ... YOUR CODE FOR TASK 8 ...
 from sklearn.cluster import KMeans
 # A loop will be used to plot the explanatory power for up to 10 KMeans clusters
 ks = range(1, 10)
@@ -219,11 +209,9 @@ plt.ylabel('inertias')
 km = KMeans(n_clusters=3,random_state=8)
 
 # Fit the data to the `km` object
-#  ... YOUR CODE FOR TASK 9 ...
 p_comps = km.fit_transform(p_comps)
 # Create a scatter plot of the first two principal components
 # and color it according to the KMeans cluster assignment 
-# ... YOUR CODE FOR TASK 9 ...
 plt.figure()
 plt.scatter(p_comps[:,0], p_comps[:,1], c=km.labels_)
 plt.xlabel('Principal component #1')
@@ -263,7 +251,7 @@ sns.violinplot(x=melt_car["percent"], y=melt_car["measurement"], hue=melt_car["c
 
 
 # Read in the new dataset
-miles_driven = pd.read_csv("D:\\D O W N L O A D S\\1.Thesis\\project\\Reducing Traffic Mortality in the USA\\datasets\\miles-driven.csv", sep='|')
+miles_driven = pd.read_csv("\\datasets\\miles-driven.csv", sep='|')
 
 # Merge the `car_acc` DataFrame with the `miles_driven` DataFrame
 car_acc_miles = pd.merge(car_acc, miles_driven, on="state")
